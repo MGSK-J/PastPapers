@@ -1,11 +1,9 @@
-module.exports=app=>{
+module.exports=app => {
   const vans=require("../controllers/vans.controller");
-
-  var router=require("express").Router();
+  let router= require("express").Router();
 
   router.post("/",vans.create);
-
-  router.post("/",vans.findAll);
+  router.get("/",vans.findAll);
 
   app.use("/api/vans",router);
 };

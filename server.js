@@ -1,7 +1,11 @@
 const express=require("express");
 const cors=require("cors");
 
+const port=8080;
+
 const app=express();
+const db=require("./app/models");
+require("./app/routes/vans.routes")(app);
 
 var corsOpt={
     origin:"http://localhost:8080"
@@ -9,11 +13,9 @@ var corsOpt={
 
 app.use(cors(corsOpt));
 
+//Middleware to parse JSON and URL-encoded bodies
 app.use(express.json());
-
-app.use(express.urlencoded({extended:true}));
-
-const db=require("./app/models");
+app.use(express.urlencoded({ extended:true }));
 
 db.mongoose
  .connect(db.url,{
@@ -28,14 +30,9 @@ db.mongoose
     process.exit();
  });
 
- app.get("/",(req,res)=>{
-   res.json({message:"welcome"});
- });
+//Routes to be defined
 
- require("./app/routes/vans.routes")(app);
-
-const port=8080;
-
+//Start the server, listening on port
 app.listen(port,()=>{
   console.log("server runnning");
 });
